@@ -8,6 +8,12 @@ public class UTXO {
     private Integer index;
     private Integer amount;
 
+    public UTXO() {
+        this.txid = "";
+        this.index = 0;
+        this.amount = 0;
+    }
+
     public UTXO(String txid, Integer index, Integer amount) {
         this.txid = txid;
         this.index = index;
@@ -36,6 +42,9 @@ public class UTXO {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+    public String toString() {
+        return String.format("id=%s idx=%d amt=%d", getTxid(), getIndex(), getAmount());
     }
 
     public DatabaseEntry objectToEntry() {
