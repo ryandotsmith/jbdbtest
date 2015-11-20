@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    static final Integer rounds = 10000;
+    static final Integer rounds = 10000000;
 
     static final MetricRegistry metrics = new MetricRegistry();
     static final Timer writeTimer = metrics.timer("write-time");
@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
         ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics)
-                .convertRatesTo(TimeUnit.MILLISECONDS)
+                .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MICROSECONDS)
                 .build();
 
@@ -46,7 +46,7 @@ public class Main {
             if (db.get(null, k, v, null) == OperationStatus.SUCCESS) {
                 utxo.entryToObject(v);
                 if (i % 1000 == 0) {
-                    System.out.println(utxo.toString());
+                    //System.out.println(utxo.toString());
                 }
             } else {
                 failureCount.inc();
@@ -54,6 +54,7 @@ public class Main {
 
             context.stop();
         }
+
         teardownDatabase(db);
         reporter.report();
     }
